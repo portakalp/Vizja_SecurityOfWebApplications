@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: securenotes-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-securenotes}
+      POSTGRES_USER: ${POSTGRES_USER:-securenotes}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-securenotes123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-securenotes}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: securenotes-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-securenotes}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-securenotes}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-securenotes123}
+      JWT_SECRET: ${JWT_SECRET:-c2VjdXJlbm90ZXMtand0LXNlY3JldC1rZXktZm9yLWRldmVsb3BtZW50LW9ubHktMzItYnl0ZXM=}
+      JWT_ACCESS_EXPIRATION: ${JWT_ACCESS_EXPIRATION:-900000}
+      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-604800000}
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
