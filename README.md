@@ -41,27 +41,26 @@ This will start both PostgreSQL and the application in containers:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd sowa
 
 # Start all services
-docker-compose up --build
+docker compose up --build
 
 # Or run in detached mode
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### Option 2: Run PostgreSQL in Docker, Application Locally
 
 ```bash
 # Start only PostgreSQL
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # Wait for PostgreSQL to be ready
-docker-compose logs -f postgres
+docker compose logs -f postgres
 # (Wait until you see "database system is ready to accept connections")
 
 # Run the application locally
-./mvnw spring-boot:run
+mvn spring-boot:run
 
 # Or on Windows
 mvnw.cmd spring-boot:run
@@ -81,17 +80,17 @@ export SPRING_DATASOURCE_USERNAME=your_username
 export SPRING_DATASOURCE_PASSWORD=your_password
 
 # Run the application
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### Stopping the Application
 
 ```bash
 # Stop all Docker containers
-docker-compose down
+docker compose down
 
 # Stop and remove volumes (clears database)
-docker-compose down -v
+docker compose down -v
 ```
 
 ### Access the Application

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <title>SecureNotes Manager</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="container">
@@ -13,13 +13,14 @@
             <h1>🔐 SecureNotes Manager</h1>
             <div id="user-info" class="hidden">
                 <span id="username-display"></span>
+                <span id="admin-badge" class="admin-badge hidden">ADMIN</span>
                 <button id="logout-btn" class="btn btn-secondary">Logout</button>
             </div>
         </header>
 
         <main>
             <!-- Auth Section -->
-            <section id="auth-section">
+            <section id="auth-section" class="hidden">
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="login">Login</button>
                     <button class="tab-btn" data-tab="register">Register</button>
@@ -93,6 +94,48 @@
                     <p id="no-notes-message" class="hidden">No notes yet. Create your first note!</p>
                 </div>
             </section>
+
+            <!-- Note Detail Section -->
+            <section id="note-detail-section" class="hidden">
+                <div class="note-detail-header">
+                    <button id="back-to-dashboard" class="btn btn-secondary">← Back to Notes</button>
+                    <div class="note-detail-actions">
+                        <button id="toggle-edit-btn" class="btn btn-primary">✏️ Edit</button>
+                        <button id="delete-note-detail-btn" class="btn btn-danger">🗑️ Delete</button>
+                    </div>
+                </div>
+                
+                <!-- View Mode -->
+                <div id="note-view-mode">
+                    <div class="note-detail-card">
+                        <h2 id="detail-note-title"></h2>
+                        <div class="note-detail-content" id="detail-note-content"></div>
+                        <div class="note-detail-footer">
+                            <span>Created: <span id="detail-note-created"></span></span>
+                            <span>Updated: <span id="detail-note-updated"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Mode -->
+                <div id="note-edit-mode" class="hidden">
+                    <form id="note-edit-form" class="note-detail-card">
+                        <div class="form-group">
+                            <label for="edit-note-title">Title</label>
+                            <input type="text" id="edit-note-title" required maxlength="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-note-content">Content</label>
+                            <textarea id="edit-note-content" rows="10" maxlength="10000"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                            <button type="button" id="cancel-edit-btn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                        <div id="edit-note-error" class="error-message hidden"></div>
+                    </form>
+                </div>
+            </section>
         </main>
 
         <footer>
@@ -100,6 +143,6 @@
         </footer>
     </div>
 
-    <script src="app.js"></script>
+    <script src="/app.js"></script>
 </body>
 </html>

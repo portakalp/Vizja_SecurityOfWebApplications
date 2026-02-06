@@ -76,6 +76,9 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId.toString());
         claims.put("type", "access");
+        claims.put("roles", userDetails.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .toList());
         return buildToken(claims, userDetails.getUsername(), accessTokenExpiration);
     }
 
